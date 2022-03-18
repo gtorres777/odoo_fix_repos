@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="stock_valuation_layer_form_view_inherit_valuation_layer_by_location" model="ir.ui.view">
+        <field name="name">stock.valuation.layer.form.view.inherit.valuation_layer_by_location</field>
+        <field name="model">stock.valuation.layer</field>
+        <field name="inherit_id" ref="stock_account.stock_valuation_layer_form"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="after">
+                <field name="location_id" readonly="1"/>
+            </field>
+            <field name="remaining_qty" position="after">
+                <field name="qty_final_balance"/>
+                <field name="unit_cost_final_balance"/>
+                <field name="total_cost_ending_balance"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="stock_valuation_layer_tree_view_inherit_valuation_layer_by_location" model="ir.ui.view">
+        <field name="name">stock.valuation.layer.tree.view.inherit.valuation_layer_by_location</field>
+        <field name="model">stock.valuation.layer</field>
+        <field name="inherit_id" ref="stock_account.stock_valuation_layer_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="multi_edit">1</attribute>
+            </xpath>
+            <field name="company_id" position="before">
+                <field name="location_id"/>
+                <field name="qty_final_balance"/>
+                <field name="unit_cost_final_balance"/>
+                <field name="total_cost_ending_balance"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

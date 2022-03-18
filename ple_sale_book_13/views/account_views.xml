@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+
+        <record id="view_account_form_inherit" model="ir.ui.view">
+            <field name="name">view_account_form_inherit</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+                <field name="user_type_id" position="after">
+                    <field name="date_account"/>
+                    <field name="state_account"/>
+                    <field name="ple_selection"/>
+                </field>
+            </field>
+        </record>
+
+	</data>
+</odoo>

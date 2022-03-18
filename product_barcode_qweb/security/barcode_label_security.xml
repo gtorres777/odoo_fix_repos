@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="group_3barcode_labels" model="res.groups">
+        <field name="name">Barcode Labels (3 Labels/Page)</field>
+    </record>
+
+</odoo>

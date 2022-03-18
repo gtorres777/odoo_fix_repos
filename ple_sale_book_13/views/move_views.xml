@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_move_form_inherit_invoice_document_type_inherit" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account_origin_invoice.view_move_form_inherit_invoice_document_type_inherit"/>
+            <field name="arch" type="xml">
+                <page name="other_info" position="inside">
+                    <group string="Información PLE" name="ple_group">
+                        <field name="date_ple"/>
+                        <field name="ple_state" attrs="{'readonly': [('type', 'in', ['out_invoice', 'out_refund'])]}"/>
+                        <field name="its_declared"/>
+                    </group>
+                </page>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='account_id']" position="after">
+                    <field name="correlative"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_journal_form_inherit" model="ir.ui.view">
+            <field name="name">account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="default_credit_account_id" position="after">
+                    <field name="no_include_ple" attrs="{'invisible': [('type', 'not in', ['sale', 'purchase'])]}"/>
+                    <field name="journal_correlative"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

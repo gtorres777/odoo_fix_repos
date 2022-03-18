@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--reason.move.reversal-->
+        <record id="view_account_move_reversal_inherit" model="ir.ui.view">
+            <field name="name">account.move.reversal.form</field>
+            <field name="model">account.move.reversal</field>
+            <field name="inherit_id" ref="account.view_account_move_reversal"/>
+            <field name="arch" type="xml">
+                <field name="journal_id" position="replace"/>
+                <field name="reason" position="before">
+                    <field name="journal_id" attrs="{'required':[('move_type', '=', 'out_invoice')]}"/>
+                    <field name="reason_cancellation_id" attrs="{'required':[('move_type', '=', 'out_invoice')], 'invisible':[('move_type', '!=', 'out_invoice')]}"/>
+                </field>
+            </field>
+        </record> 
+
+        <!--account.move-->
+        <record id="view_move_form_inherit" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+						<field name="arch" type="xml">
+							<xpath expr="//h1" position="after">
+										<h1 class="mt0">
+												<field name="name_credit_debit" readonly="True" attrs="{'invisible':[('name', 'not in', ['/', False])]}"/>
+										</h1>
+								</xpath>
+                <field name="ref" position="after">
+                    <field name="reason_cancellation_id" attrs="{'required': [('type', 'in', 'out_refund')],'invisible': [('type', 'not in', ['out_refund', 'in_refund'])],'readonly': [('state', '!=', 'draft')]}"/>
+                </field>
+            </field>
+        </record>
+
+        <!--reason.cancellation.credit.debit-->
+        <record id="reason_cancellation_credit_debit_form_view" model="ir.ui.view">
+            <field name="name">reason.cancellation.credit.debit.form.view</field>
+            <field name="model">reason.cancellation.credit.debit</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="code"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="reason_cancellation_credit_debit_tree_view" model="ir.ui.view">
+            <field name="name">reason.cancellation.credit.debit.tree.view</field>
+            <field name="model">reason.cancellation.credit.debit</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="reason_cancellation_credit_debit_action" model="ir.actions.act_window">
+            <field name="name">Códigos de Motivo de emisión de nota de crédito electrónica</field>
+            <field name="res_model">reason.cancellation.credit.debit</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="reason_cancellation_credit_debit_menu"
+                name="Motivos de cancelación"
+                parent="account.account_management_menu"
+                action="reason_cancellation_credit_debit_action"
+        />
+
+    </data>
+</odoo>

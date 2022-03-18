@@ -1,0 +1,5 @@
+Version 13.0.1.1 - 	08 July 20
+===================================
+
+FIX - filling up reason_cancellation_id field on account.move
+    - It filled this field before post it to avoid conflict with electronic document flow.

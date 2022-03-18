@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="invoice_document_type_view_form" model="ir.ui.view">
+            <field name="name">invoice.document.type.form</field>
+            <field name="model">invoice.document.type</field>
+            <field name="arch" type="xml">
+                <form string="Tipo Comprobante de Pago">
+                    <sheet>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                        </group>
+                        <group col="6">
+                            <div class="oe_inline">
+                                <field name="is_active" nolabel="1"/>
+                                <label string="Activo" for="is_active"/>
+                            </div>
+                            <div class="oe_inline">
+                                <field name="is_sale" nolabel="1"/>
+                                <label string="Ventas" for="is_sale"/>
+                            </div>
+                            <div class="oe_inline">
+                                <field name="is_purchase" nolabel="1"/>
+                                <label string="Compras" for="is_purchase"/>
+                            </div>
+                        </group>
+                        <group attrs="{'invisible': [('is_purchase', '=', False)]}">
+                            <group string="Serie">
+                                <field name="prefix_length_validation"/>
+                                <field name="prefix_long" attrs="{'invisible': [('prefix_length_validation', 'in', [False, 'no_validation'])]}"/>
+                                <field name="prefix_validation"/>
+                            </group>
+                            <group string="Correlativo">
+                                <field name="correlative_length_validation"/>
+                                <field name="correlative_long" attrs="{'invisible': [('correlative_length_validation', 'in', [False, 'no_validation'])]}"/>
+                                <field name="correlative_validation"/>
+                            </group>
+                        </group>
+                        <group attrs="{'invisible': [('is_purchase', '=', False)]}">
+                            <field name="journal_purchase_id"/>
+                            <field name="company_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="invoice_document_type_view_tree" model="ir.ui.view">
+            <field name="name">invoice.document.type.tree</field>
+            <field name="model">invoice.document.type</field>
+            <field name="arch" type="xml">
+                <tree string="Tipo Comprobante de Pago">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="is_active"/>
+                    <field name="is_sale"/>
+                    <field name="is_purchase"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="invoice_document_type_action" model="ir.actions.act_window">
+            <field name="name">Tipo Comprobante Pago</field>
+            <field name="res_model">invoice.document.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="invoice_document_type_menu"
+                  name="Tipo Comprobante de Pago"
+                  parent="account.account_account_menu"
+              	  groups="account.group_account_manager"
+                  action="invoice_document_type_action"
+        />
+
+        <record id="account_journal_form_inherit_invoice_document_type" model="ir.ui.view">
+            <field name="name">account.journal.form.inherit.invoice.document.type</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="invoice_document_type_id" attrs="{'invisible': [('type', 'not in', ['sale', 'purchase'])]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_move_form_inherit_invoice_document_type" model="ir.ui.view">
+            <field name="name">account.move.form.inherit.invoice.document.type</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="invoice_user_id" position="after">
+                    <field name="sunat_code"/>
+                </field>
+                <xpath expr="//notebook" position='before'>
+                    <field name="error_dialog" class="infobox" attrs="{'invisible': [('error_dialog','in', [False,''])]}"/>
+                </xpath>
+                <field name="partner_id" position="after">
+                    <field name="inv_document_type_id" domain="[('is_active','=',True),('is_purchase','=', True), '|', ('company_id', '=', company_id), ('company_id', '=', False)]" attrs="{'readonly': [('state', 'not in', 'draft')], 'invisible': [('type', 'not in', ['in_invoice', 'in_refund'])]}"/>
+                    <field name="prefix_val" style="width: 30%;" attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('type', 'not in', ['in_invoice', 'in_refund'])], 'required': [('state','=', 'draft'),('type','in',['in_invoice','in_refund'])]}" placeholder="Serie"/>
+                    <field name="suffix_val" style="width: 30%;" attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('type', 'not in', ['in_invoice', 'in_refund'])], 'required': [('state','=', 'draft'),('type','in',['in_invoice','in_refund'])]}" placeholder="Correlativo"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

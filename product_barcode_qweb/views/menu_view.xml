@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<odoo>
+
+    <act_window id="act_3barcode_template_labels" name="Barcode (3 Labels/Page)"
+        res_model="trbarcode.labels"
+        binding_model="product.template" view_mode="form" target="new" />
+
+    <act_window id="act_3barcode_labels" name="Barcode (3 Labels/Page)"
+        res_model="trbarcode.labels"
+        binding_model="product.product" view_mode="form" target="new"/>
+
+    <act_window id="act_3purchase_bar_labels" name="Barcode (3 Labels/Page)"
+        res_model="trbarcode.labels"
+        binding_model="purchase.order" view_mode="form" target="new"/>
+
+    <act_window id="act_3picking_bar_labels" name="Barcode (3 Labels/Page)"
+        res_model="trbarcode.labels"
+        binding_model="stock.picking" view_mode="form" target="new"/>
+    <!-- 
+    <act_window id="act_3mrp_bar_labels" name="Barcode (3 Labels/Page)"
+        res_model="trbarcode.labels"
+        binding_model="mrp.production" view_mode="form" target="new"/>
+     -->
+    <menuitem id="menu_main_3barcode_labels" name="Barcode (3 Labels/Page)"
+        parent="stock.menu_stock_root" sequence="5"
+        groups="product_barcode_qweb.group_3barcode_labels" />
+
+    <menuitem action="action_3barcode_labels" id="menu_action_3barcode_labels"
+        parent="menu_main_3barcode_labels" sequence="10"
+        groups="product_barcode_qweb.group_3barcode_labels" />
+
+    <menuitem id="menu_3barcode_configuration" name="Barcode Config"
+        action="action_trbarcode_config" parent="menu_main_3barcode_labels"
+        sequence="20" groups="product_barcode_qweb.group_3barcode_labels" />
+
+</odoo>

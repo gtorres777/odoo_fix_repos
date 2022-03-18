@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="operation_type_form_view" model="ir.ui.view">
+        <field name="name">operation.type.form.view</field>
+        <field name="model">operation.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="operation_description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="operation_type_tree_view" model="ir.ui.view">
+        <field name="name">operation.type.tree.view</field>
+        <field name="model">operation.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="operation_description"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
